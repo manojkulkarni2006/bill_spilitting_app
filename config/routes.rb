@@ -4,8 +4,8 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'transactions#index'
-
-  resources :transactions
+  resources :transactions, only: [:index, :create]
+  resources :monthly_calculations, only: [:index, :create]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -55,4 +55,5 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  get '*path' => redirect('/')
 end

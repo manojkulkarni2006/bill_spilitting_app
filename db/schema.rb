@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918114212) do
+ActiveRecord::Schema.define(version: 20160921153420) do
 
   create_table "bills", force: :cascade do |t|
     t.string   "event",      limit: 255,                  null: false
@@ -21,6 +21,44 @@ ActiveRecord::Schema.define(version: 20160918114212) do
     t.text     "comment",    limit: 65535
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.integer  "bill_id",    limit: 4
+    t.integer  "from_user",  limit: 4,                null: false
+    t.integer  "to_user",    limit: 4,                null: false
+    t.decimal  "pay_amt",              precision: 10, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "contributions", ["bill_id"], name: "index_contributions_on_bill_id", using: :btree
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "from_user",  limit: 4,                null: false
+    t.integer  "to_user",    limit: 4,                null: false
+    t.decimal  "paid_amt",             precision: 10, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "bill_id",    limit: 4
+    t.decimal  "paid_amt",             precision: 10, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "transactions", ["bill_id"], name: "index_transactions_on_bill_id", using: :btree
+  add_index "transactions", ["user_id"], name: "index_transactions_on_user_id", using: :btree
+
+  create_table "user_accounts", force: :cascade do |t|
+    t.integer  "from_user",   limit: 4,                null: false
+    t.integer  "to_user",     limit: 4,                null: false
+    t.decimal  "previous_cf",           precision: 10, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   create_table "users", force: :cascade do |t|

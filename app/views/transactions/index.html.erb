@@ -43,9 +43,9 @@
       </div>
     	<% @users.each do |usr| %>
     	<div class='row'>
-	      <div class="col-sm-2"><%= check_box_tag "user_present[]", usr.id, false , class: 'form-control' %></div>
+	      <div class="col-sm-2"><%= check_box_tag "user_present[]", usr.id, check_user_present(usr.id) , class: 'form-control' %></div>
 	      <div class="col-sm-3"><%= usr.name.capitalize %></div>
-	      <div class="col-sm-5"><%= text_field_tag "user_amt_#{usr.id}", '0' ,class: 'form-control' %></div>
+	      <div class="col-sm-5"><%= text_field_tag "user_amt_#{usr.id}", set_user_amount(usr.id) ,class: 'form-control' %></div>
       </div>
       <% end %>
     </div>

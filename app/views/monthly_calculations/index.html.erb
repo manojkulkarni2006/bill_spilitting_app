@@ -1,0 +1,10 @@
+<table class="table table-striped">
+  <% unless @payments.blank? %>
+		<% @payments.each do |payment| %>
+			<% next if payment[:amt].eql?(0) %>
+			<tr><td><%= payment[:from] %> Please pay Rs.<%= payment[:amt] %> to <%= payment[:to] %></td></tr>
+		<% end %>
+	<% else %>
+		<tr> Nothing to dispay </tr>
+	<% end %>
+</table>

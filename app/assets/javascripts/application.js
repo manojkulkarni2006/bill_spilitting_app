@@ -18,5 +18,5 @@
 
 
 $(document).on('turbolinks:load', function(event) {
-    $( ".datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' }).datepicker("setDate", new Date());
+    $( ".datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
  } );
