@@ -2,7 +2,7 @@
   <% unless @payments.blank? %>
 		<% @payments.each do |payment| %>
 			<% next if payment[:amt].eql?(0) %>
-			<tr><td><%= payment[:from] %> Please pay Rs.<%= payment[:amt] %> to <%= payment[:to] %></td></tr>
+			<tr><td><%= payment[:from] %> has to pay Rs.<%= payment[:amt] %> to <%= payment[:to] %> for this month.</td></tr>
 		<% end %>
 	<% else %>
 		<tr> Nothing to dispay </tr>

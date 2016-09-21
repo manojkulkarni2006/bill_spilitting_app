@@ -4,7 +4,7 @@ class Bill < ActiveRecord::Base
 	has_many :contributions
 
 	validates :event, presence: true, inclusion: { in: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'] }
-	validates :amount, presence: true, length: {maximum: 10}, numericality: true
+	validates :amount, presence: true, length: {maximum: 10}, numericality: {greater_than_or_equal_to: 1}
 	validates :location, presence: true, length: {maximum: 30}
 	validates :date, presence: true, length: {maximum: 10}
 	validate :validate_date
@@ -34,6 +34,8 @@ class Bill < ActiveRecord::Base
 				individual_contri = get_individual_contribution_hash(contribution_hash)
 				individual_contri.each do |due|
 					Contribution.create(bill_id: self.id, from_user: due[:from_usr].to_i, to_user: due[:to_usr].to_i, pay_amt: due[:amt])
+					user_acc = UserAccount.where(from_user: due[:from_usr].to_i, to_user: due[:to_usr].to_i).first_or_initialize
+					user_acc.update_attributes!(previous_cf: (user_acc.previous_cf.present? ? user_acc.previous_cf + due[:amt] : due[:amt]))
 				end
 				return true
 			end

@@ -1,0 +1,54 @@
+<% if @payment.errors.any? %>
+<div class="alert alert-danger">
+	<% @payment.errors.full_messages.each do |message| %>
+  	<strong><%= message %></strong><br/>
+  <% end %>	
+</div>
+<% end %>
+<h2> Payment: </h2>
+<%= form_for @payment, url: {action: "create"}, html: {class: "form-horizontal"} do |f| %>
+ 	<div class="row form-group">
+    <label class="col-sm-3">Payment From :</label>
+    <div class="col-sm-9">
+      <%= f.select :from_user, @users.collect {|u| [ u.name, u.id ] }, { include_blank: true }, class: 'form-control' %>
+    </div>
+ 	</div>
+ 	<div class="row form-group">
+    <label class="col-sm-3">Payment To :</label>
+    <div class="col-sm-9">
+      <%= f.select :to_user, @users.collect {|u| [ u.name, u.id ] }, { include_blank: true }, class: 'form-control' %>
+    </div>
+ 	</div>
+ 	<div class="row form-group">
+    <label class="col-sm-3">Amount :</label>
+    <div class="col-sm-9">
+      <%= f.text_field :paid_amt, class: 'form-control' %>
+    </div>
+ 	</div>
+ 	<div class="row form-group">
+    <label class="control-label col-sm-3"></label>
+    <div class="col-sm-2">
+      <%= f.submit 'Pay', class: 'btn btn-primary' %>
+    </div>
+    <div class="col-sm-2">
+      <%= link_to "Reset", user_payments_path, class: 'btn btn-warning' %>
+    </div>
+ 	</div>
+<% end %>
+
+<h2> Remaining payment till date: </h2>
+
+<table class="table table-striped">
+  <% unless @user_acc.blank? %>
+    <% @user_acc.each do |acc| %>
+      <% next if acc[:previous_cf].eql?(0) %>
+      <% if acc[:previous_cf] > 0 %>
+        <tr><td><%= @map_name[acc[:from_user]] %> has to pay Rs.<%= acc[:previous_cf] %> to <%= @map_name[acc[:to_user]] %></td></tr>
+      <% else %>
+        <tr><td><%= @map_name[acc[:from_user]] %> has to take Rs.<%= acc[:previous_cf].abs %> from <%= @map_name[acc[:to_user]] %></td></tr>
+      <% end %>
+    <% end %>
+  <% else %>
+    <tr> Nothing to dispay </tr>
+  <% end %>
+</table>

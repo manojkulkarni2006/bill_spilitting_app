@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'transactions#index'
   resources :transactions, only: [:index, :create]
-  resources :monthly_calculations, only: [:index, :create]
+  resources :monthly_calculations, only: [:index]
+  resources :user_payments, only: [:index, :create]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

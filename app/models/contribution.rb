@@ -2,6 +2,9 @@ class Contribution < ActiveRecord::Base
 	belongs_to :bill
 	belongs_to :user
 
+
+	# below method returns hash of due amount of users combination for given time
+	# if time is not passed to method then it returns hash of due amount of users combination for current month
 	def self.get_timely_data(from_time = nil, to_time = nil)
 		from_time = DateTime.now.beginning_of_month if from_time.blank?
 		to_time = DateTime.now if to_time.blank?
